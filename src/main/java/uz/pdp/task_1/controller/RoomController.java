@@ -54,7 +54,7 @@ public class RoomController {
         if (!hotelOptional.isPresent()) {
             return "Hotel not found!";
         }
-        boolean exists = roomRepository.existsByNumberAndHotelIdAndSize(roomDto.getNumber(), roomDto.getHotel_id(), roomDto.getSize());
+        boolean exists = roomRepository.existsByNumberAndHotelId(roomDto.getNumber(), roomDto.getHotel_id());
         if (exists) {
             return "This room number already exist!";
         }
@@ -72,15 +72,16 @@ public class RoomController {
         Optional<Room> optionalRoom = roomRepository.findById(id);
         if (optionalRoom.isPresent()) {
             Optional<Hotel> hotelOptional = hotelRepository.findById(roomDto.getHotel_id());
+            Room room = optionalRoom.get();
 
             if (!hotelOptional.isPresent()) {
                 return "Hotel not found!";
             }
-            boolean exists = roomRepository.existsByNumberAndHotelIdAndSize(roomDto.getNumber(), roomDto.getHotel_id(), roomDto.getSize());
-            if (exists) {
+            boolean exists = roomRepository.existsByNumberAndHotelId(roomDto.getNumber(), roomDto.getHotel_id());
+
+            if (exists && !roomDto.getNumber().equals(room.getNumber())) {
                 return "This room number already exist!";
             }
-            Room room = optionalRoom.get();
             room.setFloor(roomDto.getFloor());
             room.setNumber(roomDto.getNumber());
             room.setSize(roomDto.getSize());

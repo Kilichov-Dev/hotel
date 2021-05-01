@@ -9,8 +9,8 @@ import uz.pdp.task_1.entity.Room;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 
-    boolean existsByNumberAndHotelIdAndSize(Integer number, Integer hotel_id, String size);
-
+//    boolean existsByIdAndNumberAndHotelId(Integer id, Integer number, Integer hotel_id);
+    boolean existsByNumberAndHotelId(Integer number, Integer hotel_id);
     Page<Room> findAllByHotelId(Integer hotel_id, Pageable pageable);
 }
 
